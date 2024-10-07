@@ -1,0 +1,63 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+class Item{
+    protected:
+         string name;
+         double price;
+    public:
+         Item(string s,double p){
+            name=s;
+            price=p;
+         }
+         virtual double calculate_price()=0;
+};
+class Physicalproduct:public Item{
+    public:
+           Physicalproduct(string s,double d)
+           :Item(s,d){
+           }
+           double calculate_price() override{
+                return price*1.76;
+           }
+
+};
+class Digital_product:public Item{
+    public:
+           Digital_product(string s,double d)
+           :Item(s,d){
+
+           }
+           double calculate_price() override{
+            return price*2.78;
+           }
+};
+class Subsciption:public Item{
+    public:
+          Subsciption(string s,double d):Item(s,d){}
+          double calculate_price() override{
+              return price*4.7;
+          }
+};
+class Shopingcart{
+           vector<Item*>shop;
+           public:
+                 void add_cart(Item* i){
+                    shop.push_back(i);
+                 }
+                 double calculateTotal(){
+                    double total=0;
+                    for(auto item_name:shop){
+                        total+=item_name->calculate_price();
+                    }
+                    return total;
+                 }
+};
+int main(){
+    Shopingcart S;
+    S.add_cart(new Physicalproduct("book",230.8));
+    S.add_cart(new Digital_product("Ebook",450));
+    S.add_cart(new Subsciption("Music",340.9));
+    S.add_cart(new Subsciption("video",1499));
+    cout<<"total price  "<<S.calculateTotal()<<endl;
+}
