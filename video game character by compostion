@@ -1,0 +1,72 @@
+// design a video game for differen character where they can swap weapons
+#include <iostream>
+using namespace std;
+class wepon{
+    public:
+          virtual void useweapon()=0;
+
+
+};
+class Sword:public wepon{
+    public:
+           void useweapon() override{
+              cout<<"Swing a sword"<<endl;
+           }
+};
+class Fireball:public wepon{
+     public:
+           void useweapon() override{
+            cout<<"casts a ball"<<endl;
+           }
+};
+class Bow:public wepon{
+    public: 
+           void useweapon() override{
+              cout<<"shoot by an arrow"<<endl;
+           }
+};
+class Charater{
+    protected:
+              string name;
+              int health;
+              wepon* Wepon;
+    public:
+    Charater(string s,int h,wepon* w){
+         name=s;
+         health=h;
+         Wepon=w;
+    }
+    void move(){
+        cout<<"Move to new location"<<endl;
+    }
+    void takedamage(int d){
+        health-=d;
+        cout<<name<<" Remaing Life"<<" "<<health<<endl;
+    }
+    void attack(){
+        Wepon->useweapon();
+    }
+    void changeweapon(wepon* newweapon){
+        Wepon=newweapon;
+    }
+
+};
+int main(){
+    Sword sword;
+    Fireball fireball;
+    Bow bow;
+    Charater warrior("Jane",100,&sword);
+    Charater Mage("Athia",80,&fireball);
+    Charater Archer("Kim",90,&bow);
+    warrior.move();
+    warrior.attack();
+    warrior.takedamage(10);
+    cout<<endl;
+     Mage.move();
+    Mage.attack();
+    Mage.takedamage(10);
+    warrior.changeweapon(&bow);
+    warrior.attack();
+
+   
+}
