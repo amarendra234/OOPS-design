@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+class Device{
+    public:
+          virtual void turnon()=0;
+          virtual void turnoff()=0;
+};
+class Light:public Device{
+        public:
+               void turnon() override{
+                  cout<<"Light turn on"<<endl;
+               }
+               void turnoff() override{
+                   cout<<"Light turn off"<<endl;
+               }
+};
+class Thermostat: public Device{
+    public:
+            void turnon() override{
+                cout<<"Adjust temerature"<<endl;
+            }
+            void turnoff() override{
+                cout<<"turn off temprature"<<endl;
+            }
+};
+class Camera: public Device{
+    public:
+          void turnon() override{
+            cout<<"turn on camera"<<endl;
+          }
+          void turnoff() override{
+            cout<<"turn of camera"<<endl;
+          }
+     
+};
+class CentralHub{
+     vector<Device*>devices;
+     public:
+            void Addevice(Device* d){
+                devices.push_back(d);
+            }
+            void controlAlldevice(){
+                for(auto d:devices){
+                    d->turnon();
+                }
+            }
+            void shutdownalldevices(){
+                for(auto d:devices){
+                    d->turnoff();
+                }
+            }
+};
+int main(){
+  CentralHub h;
+  h.Addevice(new Camera());
+  h.Addevice(new Light());
+  h.Addevice(new Thermostat());
+  h.controlAlldevice();
+  h.shutdownalldevices();
+}
