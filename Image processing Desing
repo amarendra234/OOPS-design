@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+class Image{
+    public:
+          void display(){
+            cout<<"Image Display After Filter"<<endl;
+          }
+
+};
+class ImageFilter{
+    public:
+           virtual void applyfilter(Image& image)=0;
+
+};
+class GrayScaleFilter:public ImageFilter{
+    public:
+           void applyfilter(Image& image) override{
+             cout<<"Apply gray Scale filter"<<endl;
+             image.display();
+           }
+
+};
+class BlurFilter:public ImageFilter{
+    public:
+           void applyfilter(Image& image) override{
+              cout<<"Apply blur filter"<<endl;
+              image.display();
+           }
+};
+class SharpenFilter:public ImageFilter{
+    public:
+          void applyfilter(Image& image) override{
+            cout<<"Apply sharpen filter"<<endl;
+            image.display();
+          }
+};
+class ImageProcessor{
+    ImageFilter* filter;
+    public:
+          ImageProcessor(ImageFilter* filter){
+            this->filter=filter;
+          }
+          void applyfilter(Image& image){
+              filter->applyfilter(image);
+              //image->display();
+          }
+};
+int main(){
+  Image image;
+  ImageProcessor* greyfilter=new ImageProcessor(new GrayScaleFilter());
+  greyfilter->applyfilter(image);
+  greyfilter=new ImageProcessor(new BlurFilter());
+  greyfilter->applyfilter(image);
+  greyfilter=new ImageProcessor(new SharpenFilter());
+  greyfilter->applyfilter(image);
+}
