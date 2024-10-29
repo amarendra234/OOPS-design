@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+class DriveStretgy{
+    public:
+           virtual void drive() =0;
+
+};
+class NormalDrive:public DriveStretgy{
+    public:
+           void drive() override{
+              cout<<"It's Normal drive stretgy"<<endl;
+           }
+
+};
+class SportDrive:public DriveStretgy{
+     public:
+            void drive() override{
+                cout<<"It's Sport drive stretgy"<<endl;
+            }
+};
+class Vehical{
+    DriveStretgy* obj;
+    public:
+         Vehical(DriveStretgy* obj){
+            this->obj=obj;
+         }
+         void drive(){
+            obj->drive();
+         }
+};
+int main(){
+  Vehical* Sportbike=new Vehical(new SportDrive());
+  Sportbike->drive();
+  Vehical* Normalbike=new Vehical(new NormalDrive());
+  Normalbike->drive();
+}
