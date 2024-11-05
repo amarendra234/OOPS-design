@@ -1,0 +1,96 @@
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
+class observer{
+    public:
+           virtual void update(string &message)=0;
+};
+class conceretobserver:public observer{
+    string observername;
+    public:
+           conceretobserver(string obs):observername(obs){}
+           void update(string &msg){
+             cout<<observername<<" recived message "<<msg<<endl;
+           }
+
+};
+class subject{
+    public:
+           virtual void add(observer* obj)=0;
+           virtual void remove(observer* obj)=0;
+           virtual void notify()=0;
+           virtual void setdata(string& message)=0;
+};
+class MobileDisplay:public subject{
+       vector<observer*>observers;
+       string msg;
+       public:
+              void add(observer* obj) override{
+                 observers.push_back(obj);
+              }
+              void remove(observer* obj) override{
+                 auto it = std::remove(observers.begin(), observers.end(), obj);
+                  if (it != observers.end()) {
+                        observers.erase(it, observers.end());
+                   }
+              }
+              void notify() override{
+                for(auto observer:observers){
+                    observer->update(msg);
+                }
+              }
+              void setdata(string& message) override{
+                 msg=message;
+                 notify();
+              }
+
+};
+class TvDisplay:public subject{
+       vector<observer*>observers;
+       string msg;
+       public:
+              void add(observer* obj) override{
+                 observers.push_back(obj);
+              }
+              void remove(observer* obj) override{
+                 auto it = std::remove(observers.begin(), observers.end(), obj);
+                  if (it != observers.end()) {
+                        observers.erase(it, observers.end());
+                   }
+              }
+              void notify() override{
+                for(auto observer:observers){
+                    observer->update(msg);
+                }
+              }
+              void setdata(string& message) override{
+                 msg=message;
+                 notify();
+              }
+
+};
+int main(){
+  MobileDisplay display;
+  conceretobserver observer1("observer 1");
+  conceretobserver observer2("observer 2");
+  conceretobserver observer3("observer 3");
+  display.add(&observer1);
+  display.add(&observer2);
+  display.add(&observer3);
+  string s="iphone available";
+  //display.setdata(s);
+  display.remove(&observer1);
+  string s1="laptop available";
+  display.setdata(s1);
+  cout<<endl;
+  TvDisplay users;
+  conceretobserver tv1("tv oberver 1");
+  conceretobserver tv2("tv oberver 2");
+  conceretobserver tv3("tv oberver 3");
+  users.add(&tv1);
+  users.add(&tv2);
+  string s3="iphone avialble to tv user";
+  users.setdata(s3);
+
+}
